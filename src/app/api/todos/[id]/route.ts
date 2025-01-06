@@ -8,12 +8,18 @@ let todos: Todo[] = [
   { id: 2, text: '🗑️ Pasa el ratón sobre una tarea para eliminarla', completed: false },
 ];
 
+type Params = {
+  params: {
+    id: string;
+  };
+};
+
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: Params
 ) {
   try {
-    const id = parseInt(params.id);
+    const id = parseInt(context.params.id);
     const updatedTodo: Todo = await request.json();
     
     const index = todos.findIndex(todo => todo.id === id);
@@ -36,10 +42,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: Params
 ) {
   try {
-    const id = parseInt(params.id);
+    const id = parseInt(context.params.id);
     const index = todos.findIndex(todo => todo.id === id);
     
     if (index === -1) {
